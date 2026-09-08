@@ -120,7 +120,7 @@
                 <!-- blur-[8px] allows shapes and colors to bleed through nicely -->
                 <img src="11.jpg" 
                      alt="Locked Teaser" 
-                     class="w-full h-full object-cover transition-all duration-700 blur-[8px] scale-110 group-[.unlocked]:blur-0 group-[.unlocked]:scale-100">
+                     class="absolute inset-0 w-full h-full object-cover transition-all duration-700 blur-[8px] scale-110 group-[.unlocked]:blur-0 group-[.unlocked]:scale-100">
                 
                 <!-- Authentic Glassmorphism Lock Overlay -->
                 <div class="absolute inset-0 bg-night-900/30 group-[.unlocked]:opacity-0 transition-opacity duration-500 flex flex-col items-center justify-center pointer-events-none p-1">
@@ -135,7 +135,7 @@
             <div class="relative w-full aspect-[9/16] rounded-xl overflow-hidden group cursor-pointer border border-pink-500/20 shadow-lg" onclick="this.classList.add('unlocked')">
                 <img src="22.jpg" 
                      alt="Locked Teaser" 
-                     class="w-full h-full object-cover transition-all duration-700 blur-[8px] scale-110 group-[.unlocked]:blur-0 group-[.unlocked]:scale-100">
+                     class="absolute inset-0 w-full h-full object-cover transition-all duration-700 blur-[8px] scale-110 group-[.unlocked]:blur-0 group-[.unlocked]:scale-100">
                 
                 <div class="absolute inset-0 bg-night-900/30 group-[.unlocked]:opacity-0 transition-opacity duration-500 flex flex-col items-center justify-center pointer-events-none p-1">
                      <div class="bg-black/40 backdrop-blur-md border border-white/10 rounded-lg p-2 flex flex-col items-center w-11/12 shadow-xl">
@@ -146,10 +146,10 @@
             </div>
 
             <!-- Teaser 3 (Link to Fanvue - Identical UI but behaves as a link) -->
-            <a href="https://www.fanvue.com" target="_blank" class="relative w-full aspect-[9/16] rounded-xl overflow-hidden group cursor-pointer border border-pink-500/20 shadow-lg hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-300">
+            <a href="https://www.fanvue.com" target="_blank" class="relative w-full aspect-[9/16] rounded-xl overflow-hidden group cursor-pointer border border-pink-500/20 shadow-lg hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-300 block">
                 <img src="33.jpg" 
                      alt="Fanvue Link" 
-                     class="w-full h-full object-cover transition-all duration-700 blur-[8px] scale-110 group-hover:scale-105">
+                     class="absolute inset-0 w-full h-full object-cover transition-all duration-700 blur-[8px] scale-110 group-hover:scale-105 opacity-90">
                 
                 <div class="absolute inset-0 bg-night-900/30 flex flex-col items-center justify-center transition-opacity p-1">
                      <div class="bg-black/40 backdrop-blur-md border border-white/10 rounded-lg p-2 flex flex-col items-center w-11/12 shadow-xl group-hover:bg-black/60 transition-colors duration-300">
