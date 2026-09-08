@@ -64,9 +64,9 @@
 
 <body class="bg-night-900 text-gray-100 font-sans antialiased min-h-screen relative selection:bg-premium-glow selection:text-white flex flex-col items-center">
     
-    <!-- AGE VERIFICATION GATE -->
-    <div id="age-gate" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-night-900/95 backdrop-blur-3xl transition-opacity duration-700">
-        <div id="age-gate-modal" class="relative max-w-[360px] w-11/12 p-8 rounded-3xl bg-black/40 border border-pink-500/20 shadow-[0_0_50px_rgba(236,72,153,0.15)] text-center transform scale-100 transition-transform duration-700">
+    <!-- AGE VERIFICATION GATE (Solid Dark Background, No Memory) -->
+    <div id="age-gate" class="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-night-900 transition-opacity duration-700">
+        <div id="age-gate-modal" class="relative max-w-[360px] w-11/12 p-8 rounded-3xl bg-black/60 border border-pink-500/20 shadow-[0_0_50px_rgba(236,72,153,0.15)] text-center transform scale-100 transition-transform duration-700">
             <!-- Subtle Inner Glow -->
             <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-pink-500/10 to-transparent pointer-events-none"></div>
             
@@ -84,9 +84,9 @@
                 <button onclick="acceptAge()" class="w-full py-4 rounded-xl bg-gradient-to-r from-pink-600 via-premium-glow to-pink-600 text-white font-bold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] active:scale-95 border border-pink-400/50">
                     I am 18 or older - Enter
                 </button>
-                <a href="https://www.google.com" class="w-full py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-white font-medium text-sm transition-all duration-300 border border-white/5 active:scale-95 block">
+                <button onclick="exitSite()" class="w-full py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-white font-medium text-sm transition-all duration-300 border border-white/5 active:scale-95 block">
                     I am under 18 - Exit
-                </a>
+                </button>
             </div>
         </div>
     </div>
@@ -281,24 +281,13 @@
     <script>
         // --- 1. AGE GATE LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
-            const ageGate = document.getElementById('age-gate');
-            
-            // Check if they already verified previously
-            if (!localStorage.getItem('ageVerified')) {
-                // Prevent scrolling while popup is active
-                document.body.style.overflow = 'hidden';
-            } else {
-                // Already verified, hide instantly
-                ageGate.style.display = 'none';
-            }
+            // Lock scrolling immediately so they can't scroll past the popup
+            document.body.style.overflow = 'hidden';
         });
 
         function acceptAge() {
             const ageGate = document.getElementById('age-gate');
             const modal = document.getElementById('age-gate-modal');
-            
-            // Save their answer in the browser so it doesn't pop up again
-            localStorage.setItem('ageVerified', 'true');
             
             // Trigger fade out animations
             modal.style.transform = 'scale(0.95)';
@@ -309,6 +298,14 @@
                 ageGate.style.display = 'none';
                 document.body.style.overflow = 'auto'; // Restore scrolling
             }, 700); 
+        }
+
+        function exitSite() {
+            // Attempt to force close the tab automatically
+            window.open('','_self').close();
+            
+            // Fallback: If their browser blocks closing tabs, redirect to a safe blank page
+            window.location.href = "about:blank";
         }
 
         // --- 2. RANDOM GIF BACKGROUND LOGIC ---
