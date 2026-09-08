@@ -26,13 +26,13 @@
                     },
                     colors: {
                         night: {
-                            900: '#0a0508', // Dark tinted with pink/magenta
+                            900: '#0a0508', 
                             800: '#140a10',
                         },
                         premium: {
-                            glow: '#ec4899',   // Pink 500
-                            accent: '#f472b6', // Pink 400
-                            deep: '#831843',   // Pink 900
+                            glow: '#ec4899',   
+                            accent: '#f472b6', 
+                            deep: '#831843',   
                         }
                     },
                     animation: {
@@ -64,6 +64,33 @@
 
 <body class="bg-night-900 text-gray-100 font-sans antialiased min-h-screen relative selection:bg-premium-glow selection:text-white flex flex-col items-center">
     
+    <!-- AGE VERIFICATION GATE -->
+    <div id="age-gate" class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-night-900/95 backdrop-blur-3xl transition-opacity duration-700">
+        <div id="age-gate-modal" class="relative max-w-[360px] w-11/12 p-8 rounded-3xl bg-black/40 border border-pink-500/20 shadow-[0_0_50px_rgba(236,72,153,0.15)] text-center transform scale-100 transition-transform duration-700">
+            <!-- Subtle Inner Glow -->
+            <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-pink-500/10 to-transparent pointer-events-none"></div>
+            
+            <!-- Warning Icon -->
+            <div class="relative w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center mx-auto mb-5 border border-pink-500/30 shadow-[0_0_15px_rgba(236,72,153,0.2)]">
+                <i class="fa-solid fa-triangle-exclamation text-premium-glow text-2xl"></i>
+            </div>
+            
+            <h2 class="text-[22px] font-bold text-white mb-2 tracking-tight">Age Verification</h2>
+            <p class="text-[13px] text-gray-300 mb-8 leading-relaxed font-light px-2">
+                This website contains explicit adult content. By entering, you confirm that you are at least 18 years of age.
+            </p>
+            
+            <div class="flex flex-col gap-3 relative z-10">
+                <button onclick="acceptAge()" class="w-full py-4 rounded-xl bg-gradient-to-r from-pink-600 via-premium-glow to-pink-600 text-white font-bold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(236,72,153,0.4)] active:scale-95 border border-pink-400/50">
+                    I am 18 or older - Enter
+                </button>
+                <a href="https://www.google.com" class="w-full py-3.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-white font-medium text-sm transition-all duration-300 border border-white/5 active:scale-95 block">
+                    I am under 18 - Exit
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Dynamic Background Grid Container -->
     <div id="dynamic-bg-grid" class="fixed inset-0 z-0 grid grid-cols-3 md:grid-cols-4 grid-rows-4 gap-0 opacity-25 mix-blend-lighten pointer-events-none">
         <!-- JS will inject the random GIF blocks here -->
@@ -89,15 +116,12 @@
 
             <!-- Profile Section -->
             <div class="relative group animate-float mt-4" oncontextmenu="return false;" style="-webkit-touch-callout: none;">
-                <!-- Glowing border effect behind the image -->
                 <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-500 to-rose-400 blur-[16px] opacity-70 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
                 
-                <!-- Circular Profile Picture -->
                 <div class="relative w-[124px] h-[124px] rounded-full p-[4px] bg-gradient-to-tr from-pink-600 via-rose-500 to-purple-600 shadow-2xl overflow-hidden pointer-events-none">
                     <img src="1.jpg" alt="Brianna Profile" draggable="false" class="w-full h-full object-cover rounded-full border-4 border-night-900 bg-black pointer-events-none select-none">
                 </div>
 
-                <!-- Online / Active Status Badge -->
                 <div class="absolute bottom-2 right-2 w-6 h-6 bg-green-500 border-4 border-night-900 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.6)] pointer-events-none"></div>
             </div>
 
@@ -157,7 +181,7 @@
 
             </div>
 
-            <!-- MOBILE ONLY VIDEO (Hidden on Desktop, Shows under the 3 pictures) -->
+            <!-- MOBILE ONLY VIDEO (Hidden on Desktop) -->
             <div class="w-full lg:hidden mb-8 pointer-events-none" oncontextmenu="return false;">
                 <video src="briannasample.mp4" 
                        autoplay loop muted playsinline webkit-playsinline disablePictureInPicture draggable="false" 
@@ -255,7 +279,39 @@
     </div>
 
     <script>
-        // 🚨 ADD YOUR GIF FILENAMES HERE 🚨
+        // --- 1. AGE GATE LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const ageGate = document.getElementById('age-gate');
+            
+            // Check if they already verified previously
+            if (!localStorage.getItem('ageVerified')) {
+                // Prevent scrolling while popup is active
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Already verified, hide instantly
+                ageGate.style.display = 'none';
+            }
+        });
+
+        function acceptAge() {
+            const ageGate = document.getElementById('age-gate');
+            const modal = document.getElementById('age-gate-modal');
+            
+            // Save their answer in the browser so it doesn't pop up again
+            localStorage.setItem('ageVerified', 'true');
+            
+            // Trigger fade out animations
+            modal.style.transform = 'scale(0.95)';
+            ageGate.style.opacity = '0';
+            
+            // Wait for animation to finish before removing from screen
+            setTimeout(() => {
+                ageGate.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }, 700); 
+        }
+
+        // --- 2. RANDOM GIF BACKGROUND LOGIC ---
         const availableGifs = [
             'bg1.gif',
             'bg2.gif',
@@ -316,7 +372,7 @@
             }, randomDelay);
         }
 
-        // Toggle the tip dropdown
+        // --- 3. TIP MENU & CRYPTO COPY LOGIC ---
         function toggleTips() {
             const options = document.getElementById('tip-options');
             const chevron = document.getElementById('tip-chevron');
@@ -331,7 +387,6 @@
             }
         }
 
-        // Copy crypto addresses to clipboard
         function copyCrypto(text, btnElement) {
             const textArea = document.createElement("textarea");
             textArea.value = text;
